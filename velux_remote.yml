@@ -1,0 +1,71 @@
+substitutions:
+  friendly_name: Velux Remote
+  device_name: velux_remote
+
+esphome:
+  name: "${device_name}"
+  platform: ESP8266
+  board: d1_mini
+
+wifi:
+  ssid: "Bazinga"
+  password: !secret wifipassword
+
+  # Enable fallback hotspot (captive portal) in case wifi connection fails
+  ap:
+    ssid: "fallback"
+    password: "pommesmayo"
+
+captive_portal:
+
+# Enable logging
+logger:
+  
+# Enable Home Assistant API
+api:
+  password: !secret otapassword
+
+ota:
+  password: !secret otapassword
+
+
+switch:
+  - platform: gpio
+    id: velux_down
+    pin: 13
+    inverted: yes
+
+  - platform: gpio
+    id: velux_stop
+    pin: 12
+    inverted: yes
+
+  - platform: gpio
+    id: velux_up
+    pin: 14
+    inverted: yes
+
+
+  - platform: template
+    name: "${friendly_name} Down"
+    lambda: 'return false;'
+    turn_on_action:
+      - switch.turn_on: velux_down
+      - delay: 10ms
+      - switch.turn_off: velux_down
+
+  - platform: template
+    name: "${friendly_name} Stop"
+    lambda: 'return false;'
+    turn_on_action:
+      - switch.turn_on: velux_stop
+      - delay: 10ms
+      - switch.turn_off: velux_stop
+
+  - platform: template
+    name: "${friendly_name} Up"
+    lambda: 'return false;'
+    turn_on_action:
+      - switch.turn_on: velux_up
+      - delay: 10ms
+      - switch.turn_off: velux_up
