@@ -13,6 +13,10 @@ wifipassword: "wifipw"
 
 otapassword: "otapw"
 
+## Case
+
+Case for 3D Printing can be found here  https://www.thingiverse.com/thing:4577944
+
 ## Soldering
 ```
 Wemos 3.3V + => Remote +
