@@ -8,7 +8,7 @@ esphome:
   board: d1_mini
 
 wifi:
-  ssid: "Bazinga"
+  ssid: "Bazinga-IOT"
   password: !secret wifipassword
 
   # Enable fallback hotspot (captive portal) in case wifi connection fails
