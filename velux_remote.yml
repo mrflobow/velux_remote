@@ -28,7 +28,6 @@ api:
 ota:
   password: !secret otapassword
 
-
 switch:
   - platform: gpio
     id: velux_down
@@ -45,27 +44,26 @@ switch:
     pin: 14
     inverted: yes
 
-
+cover:
   - platform: template
-    name: "${friendly_name} Down"
-    lambda: 'return false;'
-    turn_on_action:
-      - switch.turn_on: velux_down
-      - delay: 10ms
+    name: "${friendly_name}"
+    open_action:
+      # Cancel any previous action
       - switch.turn_off: velux_down
-
-  - platform: template
-    name: "${friendly_name} Stop"
-    lambda: 'return false;'
-    turn_on_action:
-      - switch.turn_on: velux_stop
-      - delay: 10ms
-      - switch.turn_off: velux_stop
-
-  - platform: template
-    name: "${friendly_name} Up"
-    lambda: 'return false;'
-    turn_on_action:
+      # Turn the OPEN switch on briefly
       - switch.turn_on: velux_up
-      - delay: 10ms
+      - delay: 0.1s
       - switch.turn_off: velux_up
+    close_action:
+      - switch.turn_off: velux_up
+      - switch.turn_on: velux_down
+      - delay: 0.1s
+      - switch.turn_off: velux_down
+    stop_action:
+      - switch.turn_off: velux_down
+      - switch.turn_off: velux_up
+      - switch.turn_on: velux_stop
+      - delay: 0.1s
+      - switch.turn_off: velux_stop
+    optimistic: true
+    assumed_state: true
